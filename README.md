@@ -40,4 +40,4 @@ Games from http://www.vintage-basic.net/games.html that I am using to test that 
 
 ### `games`
 
-Programs that will run under my CPU
+Programs that will run under my CPU. Some have required small tweaks, some have had more untensive rewrites
