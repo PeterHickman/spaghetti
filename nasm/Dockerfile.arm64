@@ -1,0 +1,8 @@
+FROM --platform=arm64 ubuntu
+
+#NAME nasm-arm64
+
+RUN apt update
+RUN apt install nasm binutils gcc gdb vim -y
+
+CMD ["sleep", "infinity"]
