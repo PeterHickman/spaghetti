@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+original = []
+updated = []
+
+ARGF.each do |line|
+  x = line.chomp.split(/\s+/)
+
+  original << x if x.any?
+end
+
+##
+# Renumber the lines and build the old to new mappings
+##
+
+newln = 10
+mapping = Hash.new(0)
+
+original.each do |o|
+  ln = o[0]
+  mapping[ln] = newln
+  o[0] = newln
+
+  newln += 10
+end
+
+##
+# Fix up the mappings
+##
+
+original.each do |o|
+  o[-1] = mapping[o[-1]] if %w[THEN GOTO GOSUB].include?(o[-2].to_s.upcase)
+
+  puts o.join(' ')
+end

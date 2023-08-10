@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH << './lib'
+
+require 'opt'
+require 'basic_cpu'
+
+opts, args = Opts.options(ARGV, { '--input' => '=', '--debug' => '!' })
+
+unless opts.input
+  puts "No --input file supplied"
+  exit 1
+end
+
+unless File.exist?(opts.input)
+  puts "Input file #{opts.input} does not exist"
+  exit 1
+end
+
+bcpu = BasicCPU.new(opts.debug)
+
+File.open(opts.input, 'r').each do |line|
+  bcpu.load(line)
+end
+
+bcpu.run
