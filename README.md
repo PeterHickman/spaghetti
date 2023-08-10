@@ -1,6 +1,6 @@
 # Spaghetti
 
-Well this escalted quickly. I wanted to learn some Linux assembler so I thought "what project should I work on to motivate my learning?" and the answer was "write my onw basic compiler"
+Well this escalted quickly. I wanted to learn some Linux assembler so I thought "what project should I work on to motivate my learning?" and the answer was "write my own basic compiler"
 
 Perhaps I should have given it more thought but here we are
 
