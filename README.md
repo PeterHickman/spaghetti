@@ -31,3 +31,13 @@ Renumber a basic source file
 ### `runner`
 
 Runs the tests against the CPU I created
+
+## Directories
+
+### `bcg`
+
+Games from http://www.vintage-basic.net/games.html that I am using to test that my version works. These are the ones that I have not yet tackled
+
+### `games`
+
+Programs that will run under my CPU
