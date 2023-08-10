@@ -18,16 +18,16 @@ This compiles the basic source and spits out assembly for my CPU
 
 ### `dcpu`
 
-This load the assembly from `dbc` and runs it
+This loads the assembly from `dbc` and runs it
 
 ### `e`
 
-This combines the above two into a single command, so `./e fred.bas` will compile and run
+This combines the above two into a single command, so `./e fred.bas` will compile and run `fred.bas`
 
 ### `renum`
 
-Will renumber a basic source file
+Renumber a basic source file
 
 ### `runner`
 
-This runs the tests against the CPU I created
+Runs the tests against the CPU I created
