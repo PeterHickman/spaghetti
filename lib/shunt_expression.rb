@@ -1,16 +1,6 @@
-class ShuntExpression
-  FUNCTIONS = %w[
-    MAX
-    MIN
-    SIN
-    INT
-    RND
-    ABS
-    COS
-    TAN
-    SQR
-  ].freeze
+require 'utils'
 
+class ShuntExpression
   def self.parse(list_of_tokens)
     tokens = label_tokens(list_of_tokens)
     shunt(tokens)
@@ -66,11 +56,11 @@ class ShuntExpression
     r = []
 
     l.each do |item|
-      if function?(item)
+      if Utils.function?(item)
         r << Token.new(Token::FUNCTION, item.upcase)
-      elsif variable?(item)
+      elsif Utils.var?(item)
         r << Token.new(Token::VARIABLE, item.upcase)
-      elsif number?(item)
+      elsif Utils.float?(item)
         r << Token.new(Token::NUMBER, item.to_f)
       elsif %w[+ -].include?(item)
         r << Token.new(Token::OPERATOR, item, 2, Token::ASSOC_LEFT)
@@ -91,27 +81,5 @@ class ShuntExpression
     end
 
     r
-  end
-
-  def self.function?(x)
-    y = unary?(x) ? x[1..-1] : x
-
-    return FUNCTIONS.include?(y.upcase)
-  end
-
-  def self.variable?(x)
-    y = unary?(x) ? x[1..-1] : x
-
-    return false if FUNCTIONS.include?(y)
-
-    y =~ /^[a-zA-Z]+$/
-  end
-
-  def self.number?(x)
-    x =~ /^-?\d+$/ || x =~ /^-?\d+\.\d+$/
-  end
-
-  def self.unary?(text)
-    text.start_with?('-')
   end
 end

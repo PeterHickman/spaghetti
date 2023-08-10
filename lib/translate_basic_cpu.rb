@@ -51,7 +51,7 @@ class TranslateBasicCPU < TranslateBase
       when 'number'
         actions << [@g.get(@ln), 'pushi', e.value]
       when 'variable'
-        if unary?(e.value)
+        if Utils.unary?(e.value)
           actions << [@g.get(@ln), 'pushi', -1.0]
           actions << [@g.get(@ln), 'pushv', e.value[1..-1]]
           actions << [@g.get(@ln), '*']
@@ -95,12 +95,12 @@ class TranslateBasicCPU < TranslateBase
     last_index = args.size - 1
 
     args.each_with_index do |a, i|
-      if var?(a)
+      if Utils.var?(a)
         @variables << a.upcase
         actions << [@g.get(@ln), 'printv', a.upcase]
-      elsif float?(a)
+      elsif Utils.float?(a)
         actions << [@g.get(@ln), 'printi', a]
-      elsif text?(a)
+      elsif Utils.text?(a)
         actions << [@g.get(@ln), 'prints', @static_strings.add(a)]
       elsif match?(a, ';')
         panic "PRINT only uses ; at the end of the list at #{@ln}" unless i == last_index
@@ -145,10 +145,10 @@ class TranslateBasicCPU < TranslateBase
     x = args.shift
     start_is_var = false
 
-    if var?(x)
+    if Utils.var?(x)
       start_value = should_be_var(x)
       start_is_var = true
-    elsif float?(x)
+    elsif Utils.float?(x)
       start_value = should_be_float(x)
     else
       panic "Expected var or float from at #{@ln}"
@@ -162,10 +162,10 @@ class TranslateBasicCPU < TranslateBase
     x = args.shift
     end_is_var = false
 
-    if var?(x)
+    if Utils.var?(x)
       end_value = should_be_var(x)
       end_is_var = true
-    elsif float?(x)
+    elsif Utils.float?(x)
       end_value = should_be_float(x)
     else
       panic "Expected var or float to at #{@ln}"
@@ -179,10 +179,10 @@ class TranslateBasicCPU < TranslateBase
       x = args.shift
       step_is_var = false
 
-      if var?(x)
+      if Utils.var?(x)
         step_value = should_be_var(x)
         step_is_var = true
-      elsif float?(x)
+      elsif Utils.float?(x)
         step_value = should_be_float(x)
       else
         panic "Expected var or float for step at #{@ln}"
@@ -289,7 +289,7 @@ class TranslateBasicCPU < TranslateBase
     actions = []
 
     x = args.shift
-    if text?(x)
+    if Utils.text?(x)
       # There is a prompt
       actions << [@g.get(@ln), 'prints', @static_strings.add(x)]
       actions << [@g.get(@ln), 'prints', @static_strings.add('" "')]

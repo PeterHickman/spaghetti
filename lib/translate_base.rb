@@ -3,24 +3,6 @@ class TranslateBase
   # This translates the basic into my custom cpu
   ##
 
-  COMMANDS = %w[
-    END
-    FOR
-    GOSUB
-    GOTO
-    LET
-    NEXT
-    IF
-    PRINT
-    REM
-    RETURN
-    INPUT
-    WHILE
-    WEND
-    REPEAT
-    UNTIL
-  ].freeze
-
   PADDED_CHARS = %w[( ) + - * / ^]
 
   NOT_UNARY = %w[= ( + - / * > < STEP]
@@ -60,7 +42,7 @@ class TranslateBase
 
     cmd = x.shift.upcase
 
-    panic "Unknown command #{cmd} at #{ln}" unless COMMANDS.include?(cmd)
+    panic "Unknown command #{cmd} at #{ln}" unless Utils::COMMANDS.include?(cmd)
 
     @source << [0, line]
     @source << [ln, cmd, x]
@@ -187,24 +169,12 @@ class TranslateBase
     text =~ /^\d+$/
   end
 
-  def float?(text)
-    (text =~ /^-?\d+$/) || (text =~ /^-?\d+\.\d+$/)
-  end
-
-  def var?(text)
-    text.upcase =~ /^[A-Z]+$/
-  end
-
   def text?(text)
     text.start_with?('"') && text.end_with?('"')
   end
 
   def match?(actual, expected)
     actual.upcase == expected.upcase
-  end
-
-  def unary?(text)
-    text.start_with?('-')
   end
 
   def should_be(text, expected)
@@ -220,13 +190,13 @@ class TranslateBase
   end
 
   def should_be_float(text)
-    panic "Expected a float not [#{text}] at #{@ln}" unless float?(text)
+    panic "Expected a float not [#{text}] at #{@ln}" unless Utils.float?(text)
 
     text.to_f
   end
 
   def should_be_var(text)
-    panic "Not a suitable variable name [#{text}] at #{@ln}" unless var?(text.upcase)
+    panic "Not a suitable variable name [#{text}] at #{@ln}" unless Utils.var?(text.upcase)
 
     text.upcase
   end

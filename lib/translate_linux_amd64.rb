@@ -68,7 +68,7 @@ class TranslateLinuxAmd64 < TranslateBase
       when 'variable'
         vl = @variable_floats.add(e.value[1..-1])
 
-        if unary?(e.value)
+        if Utils.unary?(e.value)
           fl = @static_floats.add(-1.0)
           actions << [@g.get(@ln), 'pushq', fl]
           actions << [@g.get(@ln), 'pushq', "[#{vl}]"]
@@ -128,9 +128,9 @@ class TranslateLinuxAmd64 < TranslateBase
       if var?(a)
         # @variables << a.upcase
         # actions << [@g.get(@ln), 'printv', a.upcase]
-      elsif float?(a)
+      elsif Utils.float?(a)
         actions += f_print_float(a)
-      elsif text?(a)
+      elsif Utils.text?(a)
         actions += f_print_string(a)
       elsif match?(a, ';')
         panic "PRINT only uses ; at the end of the list at #{@ln}" unless i == last_index
