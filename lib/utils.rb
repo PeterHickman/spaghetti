@@ -42,6 +42,16 @@ class Utils
     y =~ /^[a-zA-Z]+\d*$/
   end
 
+  def self.float_var?(x)
+    # This assumes that we know this is a variable
+    string_var?(x) == false
+  end
+
+  def self.string_var?(text)
+    # This assumes that we know this is a variable
+    text.end_width?('$')
+  end
+
   def self.unary?(text)
     text.start_with?('-')
   end
