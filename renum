@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 original = []
-updated = []
 
 ARGF.each do |line|
   x = line.chomp.split(/\s+/)
