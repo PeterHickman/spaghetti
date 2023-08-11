@@ -10,6 +10,8 @@ class TranslateBasicCPU < TranslateBase
   def output(fh)
     if @debug
       @source.each do |line|
+        next if line[0] == 0
+
         p line
       end
     end
@@ -48,7 +50,7 @@ class TranslateBasicCPU < TranslateBase
   def handle_expression(args)
     actions = []
 
-    ShuntExpression.parse(args).each do |e|
+    ShuntExpression.parse(args, @debug).each do |e|
       case e.type
       when 'number'
         actions << [@g.get(@ln), 'pushi', e.value]
@@ -73,7 +75,7 @@ class TranslateBasicCPU < TranslateBase
   end
 
   def handle_conditions(args)
-    o = ShuntCondition.parse(args)
+    o = ShuntCondition.parse(args, @debug)
 
     actions = []
 

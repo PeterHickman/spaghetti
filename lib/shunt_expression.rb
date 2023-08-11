@@ -3,17 +3,19 @@
 require 'utils'
 
 class ShuntExpression
-  def self.parse(list_of_tokens)
+  def self.parse(list_of_tokens, debug = false)
     tokens = label_tokens(list_of_tokens)
-    shunt(tokens)
+    shunt(tokens, debug)
   end
 
-  def self.shunt(tokens)
+  def self.shunt(tokens, debug)
     output_queue = []
     operator_stack = OperatorStack.new
 
     while tokens.any?
       token = tokens.shift
+
+      puts token if debug
 
       case token.type
       when Token::NUMBER, Token::VARIABLE
@@ -60,6 +62,7 @@ class ShuntExpression
     r = []
 
     l.each do |item|
+      puts item if @debug
       if Utils.function?(item)
         r << Token.new(Token::FUNCTION, item.upcase)
       elsif Utils.var?(item)

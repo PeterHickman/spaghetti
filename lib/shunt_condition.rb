@@ -3,13 +3,14 @@
 require 'utils'
 
 class ShuntCondition
-  def self.parse(tokens)
+  def self.parse(tokens, debug = false)
     output_queue = []
     operator_stack = OperatorStack.new
 
-    labeled_tokens = label_tokens(tokens)
+    labeled_tokens = label_tokens(tokens, debug)
 
     labeled_tokens.each do |e|
+      puts e if debug
       case e.type
       when Token::BOOLEAN
         output_queue << operator_stack.pop if operator_stack.any? && operator_stack.type == Token::CONDITIONAL
@@ -32,7 +33,7 @@ class ShuntCondition
     output_queue
   end
 
-  def self.label_tokens(tokens)
+  def self.label_tokens(tokens, debug)
     tokens.map do |t|
       if Utils.boolean?(t)        then Token.new(Token::BOOLEAN, t.upcase)
       elsif Utils.float?(t)       then Token.new(Token::NUMBER, t.to_f)

@@ -31,6 +31,10 @@ class Token
     "<#{l.join(' ')}>"
   end
 
+  def to_s
+    inspect
+  end
+
   def reset_type(new_type)
     @type = new_type
   end
