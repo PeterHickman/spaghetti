@@ -12,13 +12,13 @@ class TranslateBasicCPU < TranslateBase
       end
     end
 
-    @variables = Set.new
+    @variables_float = Set.new
     @referenced_labels = Set.new
 
     load
 
     fh.puts '           ; Variables:'
-    @variables.sort.each do |k|
+    @variables_float.sort.each do |k|
       fh.puts "           ; $FLOAT #{k}"
     end
     fh.puts
@@ -96,7 +96,7 @@ class TranslateBasicCPU < TranslateBase
 
     args.each_with_index do |a, i|
       if Utils.var?(a)
-        @variables << a.upcase
+        @variables_float << a.upcase
         actions << [@g.get(@ln), 'printv', a.upcase]
       elsif Utils.float?(a)
         actions << [@g.get(@ln), 'printi', a]
@@ -135,7 +135,7 @@ class TranslateBasicCPU < TranslateBase
     # The looping variable
     ##
     looping_variable = should_be_var(args.shift)
-    @variables << looping_variable
+    @variables_float << looping_variable
 
     should_be(args.shift, '=')
 
@@ -298,7 +298,7 @@ class TranslateBasicCPU < TranslateBase
     end
 
     variable_to_set = should_be_var(x)
-    @variables << variable_to_set
+    @variables_float << variable_to_set
 
     actions << [@g.get(@ln), 'inputi', variable_to_set]
 

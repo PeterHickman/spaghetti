@@ -4,7 +4,7 @@ class BasicCPU
 
     @source = []
     @labels = {}
-    @variables = {}
+    @variables_float = {}
     @static_strings = {}
   end
 
@@ -12,7 +12,7 @@ class BasicCPU
     line.chomp!
 
     if line.include?('; $FLOAT')
-      populate_variable(line)
+      populate_float_variable(line)
     elsif line.include?('; $STATIC_STRING')
       populate_static_string(line)
     elsif line =~ /^\s*;/ || line == ''
@@ -48,7 +48,7 @@ class BasicCPU
 
       case cmd
       when 'printi'  then print_float(row[1])
-      when 'printv'  then print_float(@variables[row[1]])
+      when 'printv'  then print_float(@variables_float[row[1]])
       when 'printnl' then puts
       when 'prints'  then print(@static_strings[row[1]])
 
@@ -63,14 +63,14 @@ class BasicCPU
       when 'jt'      then @index = @labels[row[1]] - 1 if @flags[:t]
       when 'jf'      then @index = @labels[row[1]] - 1 unless @flags[:t]
 
-      when 'setvi'   then @variables[row[1]] = row[2]
-      when 'setvv'   then @variables[row[1]] = @variables[row[2]]
+      when 'setvi'   then @variables_float[row[1]] = row[2]
+      when 'setvv'   then @variables_float[row[1]] = @variables_float[row[2]]
       when 'cmp'     then cmp
       when 'nop' # Do nothing
-      when 'inputi'  then @variables[row[1]] = geti
+      when 'inputi'  then @variables_float[row[1]] = geti
       when 'pushi'   then @stack << row[1]
-      when 'pushv'   then @stack << @variables[row[1]]
-      when 'popv'    then @variables[row[1]] = @stack.pop
+      when 'pushv'   then @stack << @variables_float[row[1]]
+      when 'popv'    then @variables_float[row[1]] = @stack.pop
         ##
         # These are the available mathematial operations from BASIC
         # They operate take values off the stack and push the result
@@ -212,13 +212,13 @@ class BasicCPU
     puts "I: #{@index} #{@source[@index]}"
     puts "F: #{@flags}"
     puts "S: #{@stack}"
-    puts "V: #{@variables}"
+    puts "V: #{@variables_float}"
     puts
   end
 
-  def populate_variable(text)
+  def populate_float_variable(text)
     x = text.split('$FLOAT').last.strip
-    @variables[x] = 0.0
+    @variables_float[x] = 0.0
   end
 
   def populate_static_string(text)
