@@ -39,7 +39,7 @@ class Utils
     return false if FUNCTIONS.include?(y)
     return false if BOOLEANS.include?(y)
 
-    y =~ /^[a-zA-Z]+$/
+    y =~ /^[a-zA-Z]+\d*$/
   end
 
   def self.unary?(text)
