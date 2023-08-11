@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'translate_base'
 
 class TranslateLinuxAmd64 < TranslateBase
@@ -24,17 +26,16 @@ class TranslateLinuxAmd64 < TranslateBase
 
     fh.puts '           section .data'
     @static_strings.each(':') do |v, l|
-      fh.puts '%-10s db %s,0' % [l, v]
+      fh.puts format('%-10s db %s,0', l, v)
     end
     @static_floats.each(':') do |v, l|
-      fh.puts '%-10s dq %f' % [l, v]
+      fh.puts format('%-10s dq %f', l, v)
     end
     fh.puts '           section .bss'
     @variable_floats.each(':') do |_, l|
       fh.puts '%-10s resq 1' % l
     end
     fh.puts
-
 
     fh.puts '           global main'
     @externals.sort.each do |e|

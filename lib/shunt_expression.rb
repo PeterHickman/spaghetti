@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'utils'
 
 class ShuntExpression
@@ -44,7 +46,9 @@ class ShuntExpression
     end
 
     while operator_stack.any?
-      raise 'the operator on top of the stack is not a (left) parenthesis' if operator_stack.type == Token::LEFT_PARENTHESIS
+      if operator_stack.type == Token::LEFT_PARENTHESIS
+        raise 'the operator on top of the stack is not a (left) parenthesis'
+      end
 
       output_queue << operator_stack.pop
     end

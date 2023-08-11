@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StaticData
   def initialize(prefix)
     @prefix = prefix
@@ -18,7 +20,7 @@ class StaticData
 
   def each(suffix = '')
     @data.each do |k, v|
-      yield k, v+suffix
+      yield k, v + suffix
     end
   end
 end

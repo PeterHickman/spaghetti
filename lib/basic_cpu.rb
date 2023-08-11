@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BasicCPU
   def initialize(debug = false)
     @debug = debug
@@ -146,7 +148,7 @@ class BasicCPU
     when '/' then @stack << b / a
     when '+' then @stack << b + a
     when '-' then @stack << b - a
-    when '^' then @stack << b ** a
+    when '^' then @stack << b**a
     end
   end
 

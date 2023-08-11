@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # REQUIRED = { '--host' => '=', '--source' => '=', '--dest' => '=', '--match' => '[]', '--ignore' => '[]' }
 
 class OptsSelected
@@ -9,7 +11,7 @@ class OptsSelected
     @data[k[2..-1]] = v
   end
 
-  def method_missing(m, *args, &block)
+  def method_missing(m, *_args)
     s = m.to_s
     if @data.include?(s)
       @data[s]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Utils
   FUNCTIONS = %w[
     MAX
@@ -59,7 +61,7 @@ class Utils
   def self.function?(x)
     y = unary?(x) ? x[1..-1] : x
 
-    return FUNCTIONS.include?(y.upcase)
+    FUNCTIONS.include?(y.upcase)
   end
 
   def self.float?(text)

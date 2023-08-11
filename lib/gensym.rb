@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Gensym
   def initialize
     @index = 1

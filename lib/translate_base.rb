@@ -1,11 +1,13 @@
+# frozen_string_literal: false
+
 class TranslateBase
   ##
   # This translates the basic into my custom cpu
   ##
 
-  PADDED_CHARS = %w[( ) + - * / ^]
+  PADDED_CHARS = %w[( ) + - * / ^].freeze
 
-  NOT_UNARY = %w[= ( + - / * > < STEP]
+  NOT_UNARY = %w[= ( + - / * > < STEP].freeze
 
   def initialize(debug = false)
     @debug = debug
@@ -48,8 +50,8 @@ class TranslateBase
     @source << [ln, cmd, x]
   end
 
-  def output(fh)
-    raise "You need to implment this"
+  def output(_fh)
+    raise 'You need to implment this'
   end
 
   private
@@ -89,7 +91,7 @@ class TranslateBase
 
     l << pad_chars(t).map(&:upcase) if t.size.positive?
 
-    fuck_unary_minus(l.flatten.reject { |x| x.empty? })
+    fuck_unary_minus(l.flatten.reject(&:empty?))
   end
 
   def pad_chars(args)
@@ -106,7 +108,7 @@ class TranslateBase
     list.each_with_index do |item, i|
       if item == '-'
         if l.empty? || NOT_UNARY.include?(l[-1])
-          list[i+1] = '-' + list[i+1]
+          list[i + 1] = '-' + list[i + 1]
         else
           l << item
         end
@@ -201,80 +203,81 @@ class TranslateBase
     text.upcase
   end
 
-  def handle_expression(args)
-    raise "You need to implment this"
+  def handle_expression(_args)
+    raise 'You need to implment this'
   end
 
-  def handle_conditions(args)
-    raise "You need to implment this"
+  def handle_conditions(_args)
+    raise 'You need to implment this'
   end
 
   def read_upto(args, stop_words)
     l = []
     while args.any?
       break if stop_words.include?(args.first.upcase)
+
       l << args.shift
     end
     l
   end
 
-  def f_print(args)
-    raise "Implement PRINT"
+  def f_print(_args)
+    raise 'Implement PRINT'
   end
 
-  def f_goto(args)
-    raise "Implement GOTO"
+  def f_goto(_args)
+    raise 'Implement GOTO'
   end
 
   def f_end(_args)
-    raise "Implement END"
+    raise 'Implement END'
   end
 
-  def f_for(args)
-    raise "Implement FOR"
+  def f_for(_args)
+    raise 'Implement FOR'
   end
 
-  def f_next(args)
-    raise "Implement NEXT"
+  def f_next(_args)
+    raise 'Implement NEXT'
   end
 
-  def f_let(args)
-    raise "Implement LET"
+  def f_let(_args)
+    raise 'Implement LET'
   end
 
   def f_rem(_args)
-    raise "Implement REM"
+    raise 'Implement REM'
   end
 
-  def f_gosub(args)
-    raise "Implement GOSUB"
+  def f_gosub(_args)
+    raise 'Implement GOSUB'
   end
 
   def f_return(_args)
-    raise "Implement RETURN"
+    raise 'Implement RETURN'
   end
 
-  def f_input(args)
-    raise "Implement INPUT"
+  def f_input(_args)
+    raise 'Implement INPUT'
   end
 
-  def f_if(args)
-    raise "Implement IF"
+  def f_if(_args)
+    raise 'Implement IF'
   end
 
-  def f_while(args)
-    raise "Implement WHILE"
+  def f_while(_args)
+    raise 'Implement WHILE'
   end
 
-  def f_wend(args)
-    raise "Implement WEND"
+  def f_wend(_args)
+    raise 'Implement WEND'
   end
 
-  def f_repeat(args)
-    raise "Implement REPEAT"
+  def f_repeat(_args)
+    raise 'Implement REPEAT'
   end
 
-  def f_until(args)
-    raise "Implement UNTIL"
+  def f_until(_args)
+    raise 'Implement UNTIL'
   end
 end

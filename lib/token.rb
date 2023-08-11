@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 class Token
   BOOLEAN = 'boolean'
-  COMMA = 'comma'.freeze
+  COMMA = 'comma'
   CONDITIONAL = 'conditional'
-  FUNCTION = 'function'.freeze
-  LEFT_PARENTHESIS = 'left_parenthesis'.freeze
-  NUMBER = 'number'.freeze
-  OPERATOR = 'operator'.freeze
-  RIGHT_PARENTHESIS = 'right_parenthesis'.freeze
-  VARIABLE = 'variable'.freeze
+  FUNCTION = 'function'
+  LEFT_PARENTHESIS = 'left_parenthesis'
+  NUMBER = 'number'
+  OPERATOR = 'operator'
+  RIGHT_PARENTHESIS = 'right_parenthesis'
+  VARIABLE = 'variable'
 
-  ASSOC_LEFT = 'left'.freeze
-  ASSOC_RIGHT = 'right'.freeze
+  ASSOC_LEFT = 'left'
+  ASSOC_RIGHT = 'right'
 
   attr_reader :type, :value, :precedence, :associativity
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'translate_base'
 
 class TranslateBasicCPU < TranslateBase
@@ -196,7 +198,9 @@ class TranslateBasicCPU < TranslateBase
       if step_value.zero?
         panic "Cannot have a step of 0 at #{@ln}"
       elsif step_value.positive?
-        panic "Cannot loop from [#{start_value}] to [#{end_value}] with a positive step at #{@ln}" if start_value > end_value
+        if start_value > end_value
+          panic "Cannot loop from [#{start_value}] to [#{end_value}] with a positive step at #{@ln}"
+        end
       elsif end_value > start_value
         panic "Cannot loop from [#{start_value}] to [#{end_value}] with a negative step at #{@ln}"
       end
@@ -368,7 +372,7 @@ class TranslateBasicCPU < TranslateBase
     actions
   end
 
-  def f_wend(args)
+  def f_wend(_args)
     actions = []
 
     exit_label, loop_label = @while_stack.pop
@@ -379,7 +383,7 @@ class TranslateBasicCPU < TranslateBase
     actions
   end
 
-  def f_repeat(args)
+  def f_repeat(_args)
     loop_label = @g.get(@ln)
     @repeat_stack << loop_label
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ForData
   attr_reader :variable, :target, :label, :step, :target_is_var, :step_is_var
 
