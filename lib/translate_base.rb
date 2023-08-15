@@ -147,9 +147,7 @@ class TranslateBase
 
       @actions += case cmd
                   when 'END' then    f_end(args)
-                  when 'FOR' then    f_for(args)
                   when 'GOTO' then   f_goto(args)
-                  when 'NEXT' then   f_next(args)
                   when 'PRINT' then  f_print(args)
                   when 'LET' then    f_let(args)
                   when 'REM' then    f_rem(args)
@@ -157,10 +155,6 @@ class TranslateBase
                   when 'RETURN' then f_return(args)
                   when 'INPUT' then  f_input(args)
                   when 'IF' then     f_if(args)
-                  when 'WHILE' then  f_while(args)
-                  when 'WEND' then   f_wend(args)
-                  when 'REPEAT' then f_repeat(args)
-                  when 'UNTIL' then  f_until(args)
                   else
                     panic("Dont know how to handle [#{cmd}] at #{@ln}")
                   end
@@ -233,14 +227,6 @@ class TranslateBase
     raise 'Implement END'
   end
 
-  def f_for(_args)
-    raise 'Implement FOR'
-  end
-
-  def f_next(_args)
-    raise 'Implement NEXT'
-  end
-
   def f_let(_args)
     raise 'Implement LET'
   end
@@ -263,21 +249,5 @@ class TranslateBase
 
   def f_if(_args)
     raise 'Implement IF'
-  end
-
-  def f_while(_args)
-    raise 'Implement WHILE'
-  end
-
-  def f_wend(_args)
-    raise 'Implement WEND'
-  end
-
-  def f_repeat(_args)
-    raise 'Implement REPEAT'
-  end
-
-  def f_until(_args)
-    raise 'Implement UNTIL'
   end
 end
