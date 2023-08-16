@@ -23,16 +23,10 @@ class Utils
     GOSUB
     GOTO
     LET
-    NEXT
     IF
     PRINT
     REM
-    RETURN
     INPUT
-    WHILE
-    WEND
-    REPEAT
-    UNTIL
   ].freeze
 
   def self.var?(x)
@@ -65,7 +59,7 @@ class Utils
   end
 
   def self.float?(text)
-    (text =~ /^-?\d+$/) || (text =~ /^-?\d+\.\d+$/)
+    text =~ /^-?\d*\.\d*$/ || text =~ /^-?\d+\.\d+[Ee]\-\d+$/ || text =~ /^-?\d+\.\d+[Ee]\+\d+$/ || text =~ /^-?\d+[Ee]\-\d+$/ || text =~ /^-?\d+[Ee]\+\d+$/
   end
 
   def self.text?(text)
