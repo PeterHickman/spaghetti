@@ -124,6 +124,10 @@ class BasicCPU
         @stack << Math.sin(@stack.pop)
       when 'TAN'
         @stack << Math.tan(@stack.pop)
+      when 'MAX'
+        @stack << [@stack.pop, @stack.pop].max
+      when 'MIN'
+        @stack << [@stack.pop, @stack.pop].min
       when 'SQR'
         @stack << Math.sqrt(@stack.pop)
       else
