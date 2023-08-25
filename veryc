@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'set'
+
+$LOAD_PATH << './lib'
+
+require 'token'
+require 'split_line'
+require 'line_of_code'
+require 'gensym'
+require 'expression'
+require 'variables'
+require 'condition'
+require 'translate'
+
+class Very
+  def self.process(filename)
+    line_numbers = Set.new
+
+    t = Translate.new
+
+    actions = []
+
+    File.open(filename, 'r').each do |line|
+      loc = LineOfCode.new(line)
+
+      panic "Duplicate line number #{loc.line_number}" if line_numbers.include?(loc.line_number)
+
+      line_numbers << loc.line_number
+
+      actions << ['', "; #{loc.source}"]
+      loc.code.each do |x|
+        actions += t.process(loc.line_number, x)
+      end
+    end
+
+    referenced_labels = Set.new
+
+    actions.each do |action|
+      referenced_labels << action[2] if %w[jf jt jump pushr].include?(action[1])
+    end
+
+    puts '           ; Variables'
+    t.fv.each do |_k, v|
+      puts "           ; $FLOAT_VARIABLE #{v}"
+    end
+    puts
+    puts '           ; Statics'
+    t.ss.each do |k, v|
+      puts "           ; $STRING_STATIC #{v} #{k}"
+    end
+    t.fs.each do |k, v|
+      puts "           ; $FLOAT_STATIC #{v} #{k}"
+    end
+
+    puts
+
+    actions.each do |action|
+      l = referenced_labels.include?(action[0]) ? action[0] : ''
+      puts format('%-10s %s', l, action[1..-1].join(' '))
+    end
+  end
+
+  def self.panic(message)
+    puts message
+    exit 1
+  end
+end
+
+filename = ARGV[0]
+
+Very.process(filename)

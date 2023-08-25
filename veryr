@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH << './lib'
+
+require 'basic_cpu'
+
+filename = ARGV.shift
+
+b = BasicCPU.new(false)
+b.load(filename)
+b.run
