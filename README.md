@@ -1,42 +1,30 @@
-# Spaghetti
+# Very
 
-Well this escalted quickly. I wanted to learn some Linux assembler so I thought "what project should I work on to motivate my learning?" and the answer was "write my own basic compiler"
+This project started as a way to learn assembly on Linux. Write my own old school unstructured spaghetti basic compiler. As I worked through adding features and testing them the thought I had was "With `IF`, `GOTO` and `GOSUB` I actually have all I need". So I cut things back, no `FOR` ... `NEXT`, no `REPEAT` .., `UNTIL`, no `WHILE` ... `WEND`. Now I will be the first to admit that the programs written in this form of basic lacks readability but the goal here was to write a compiler so rather than spend time polishing unnecessary feature I could just steam ahead
 
-Perhaps I should have given it more thought but here we are
+Another though was that once I had this working I could implement all missing features in another form of basic that compiles into this basic before compiling to assembly ... a cunning plan indeed
 
-I have written a basic compiler for old school unstructured spaghetti basic from memory and it is severly limited, oh well
+## State of play
 
-To test that the compiler was working it was simpler to create my own CPU and compile to that to make sure that I can compile and run the code. Later I will look at spitting out real AMD64 assembly
+* The current basic has only one data type, floating point numbers
+* You can print strings but cannot manipulate them
+* The keywords are `LET`, `PRINT`, `REM`, `IF`, `GOTO`, `GOSUB`, `RETURN`, `INPUT` and `END`
+* The only place expressions can appear is in a `LET` statement
+* White space is important, the parser is lazy
+* Outputs assembly for my custom cpu and not a real one (yet)
 
-So here we are
+## Planned features
+
+* The string data type and functions to act on them
+* Arrays with the `DIM` keyword for floats and strings
+* Allow expressions to be used in other places
+* amd64 assembly for Linux
 
 ## The tools
 
-### `dbc`
-
-This compiles the basic source and spits out assembly for my CPU
-
-### `dcpu`
-
-This loads the assembly from `dbc` and runs it
-
-### `e`
-
-This combines the above two into a single command, so `./e fred.bas` will compile and run `fred.bas`
-
-### `renum`
-
-Renumber a basic source file
-
-### `runner`
-
-Runs the tests against the CPU I created
+White these up
 
 ## Directories
-
-### `bcg`
-
-Games from http://www.vintage-basic.net/games.html that I am using to test that my version works. These are the ones that I have not yet tackled
 
 ### `games`
 
