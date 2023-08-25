@@ -19,6 +19,7 @@ Another though was that once I had this working I could implement all missing fe
 * Arrays with the `DIM` keyword for floats and strings
 * Allow expressions to be used in other places
 * amd64 assembly for Linux
+* Better error messages when compiling
 
 ## The tools
 
