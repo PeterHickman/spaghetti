@@ -153,6 +153,76 @@ RSpec.describe Token do
     it 'multiple mixedcase letters with digits' do
       check_token('CaTz123', Token::FLOAT_VARIABLE, 'CATZ123')
     end
+
+    it 'rejects function names' do
+      check_token('RND', Token::FUNCTION, 'RND')
+    end
+
+    it 'rejects keywords' do
+      check_token('GOTO', Token::KEYWORD, 'GOTO')
+    end
+  end
+
+  context Token::STRING_VARIABLE do
+    it 'single uppercase letter' do
+      check_token('A$', Token::STRING_VARIABLE, 'A$')
+    end
+
+    it 'single lowercase letter' do
+      check_token('a$', Token::STRING_VARIABLE, 'A$')
+    end
+
+    it 'multiple uppercase letters' do
+      check_token('CATZ$', Token::STRING_VARIABLE, 'CATZ$')
+    end
+
+    it 'multiple lowercase letters' do
+      check_token('catz$', Token::STRING_VARIABLE, 'CATZ$')
+    end
+
+    it 'multiple mixedcase letters' do
+      check_token('CaTz$', Token::STRING_VARIABLE, 'CATZ$')
+    end
+
+    it 'single uppercase letter with digit' do
+      check_token('A1$', Token::STRING_VARIABLE, 'A1$')
+    end
+
+    it 'single lowercase letter with digit' do
+      check_token('a1$', Token::STRING_VARIABLE, 'A1$')
+    end
+
+    it 'multiple uppercase letters with digit' do
+      check_token('CATZ1$', Token::STRING_VARIABLE, 'CATZ1$')
+    end
+
+    it 'multiple lowercase letters with digit' do
+      check_token('catz1$', Token::STRING_VARIABLE, 'CATZ1$')
+    end
+
+    it 'multiple mixedcase letters with digit' do
+      check_token('CaTz1$', Token::STRING_VARIABLE, 'CATZ1$')
+    end
+
+    it 'single uppercase letter with digits' do
+      check_token('A123$', Token::STRING_VARIABLE, 'A123$')
+    end
+
+    it 'single lowercase letter with digits' do
+      check_token('a123$', Token::STRING_VARIABLE, 'A123$')
+    end
+
+    it 'multiple uppercase letters with digits' do
+      check_token('CATZ123$', Token::STRING_VARIABLE, 'CATZ123$')
+    end
+
+    it 'multiple lowercase letters with digits' do
+      check_token('catz123$', Token::STRING_VARIABLE, 'CATZ123$')
+    end
+
+    it 'multiple mixedcase letters with digits' do
+      check_token('CaTz123$', Token::STRING_VARIABLE, 'CATZ123$')
+    end
   end
 
   context Token::KEYWORD do

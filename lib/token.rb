@@ -59,6 +59,7 @@ class Token
   COMPARISON = 'comparison'
   BOOLEAN = 'boolean'
   FLOAT_VARIABLE = 'float_variable'
+  STRING_VARIABLE = 'string_variable'
   LEFT_PARENTHESIS = 'left_parenthesis'
   RIGHT_PARENTHESIS = 'right_parenthesis'
   COLON = 'colon'
@@ -102,6 +103,10 @@ class Token
     text.start_with?('"') && text.end_with?('"')
   end
 
+  def self.string_variable?(text)
+    text.upcase =~ /^[A-Z]+\d*\$$/
+  end
+
   def self.float_variable?(text)
     text.upcase =~ /^[A-Z]+\d*$/
   end
@@ -136,6 +141,7 @@ class Token
     elsif Token.maths?(@value)           then @type = MATH
     elsif Token.comparison?(@value)      then @type = COMPARISON
     elsif Token.boolean?(@value)         then @type = BOOLEAN; @value.upcase!
+    elsif Token.string_variable?(@value) then @type = STRING_VARIABLE; @value.upcase!
     elsif Token.float_variable?(@value)  then @type = FLOAT_VARIABLE; @value.upcase!
     elsif @value == '('                  then @type = LEFT_PARENTHESIS
     elsif @value == ')'                  then @type = RIGHT_PARENTHESIS
