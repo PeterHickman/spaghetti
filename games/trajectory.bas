@@ -11,8 +11,8 @@
 110 let timestep = 0
 120 print "CALCULATE A TRAJECTORY"
 130 print ""
-140 input "ENTER THE VELOCITY:" vel
-150 input "ENTER THE ANGLE:" angle
+140 input "ENTER THE VELOCITY: " vel
+150 input "ENTER THE ANGLE: " angle
 160 if vel >= 0 goto 190
 170 print "VELOCITY CANNOT BE < ZERO"
 180 goto 140
@@ -25,7 +25,7 @@
 250 let yvel = vel * sin(angle * pi/180.0)
 260 print xvel yvel
 270 print ""
-280 input "ENTER TIMESTEP:" TIMESTEP
+280 input "ENTER TIMESTEP: " TIMESTEP
 290 if timestep >= 0 goto 320
 300 print "TIME CANNOT BE < ZERO"
 310 goto 280
