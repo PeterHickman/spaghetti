@@ -75,7 +75,7 @@ class Translate
           actions << [@g.get(@line_number), 'pushf', @fs[-1.0]]
           actions << [@g.get(@line_number), '*']
         end
-      when Token::COMPARISON, Token::EQUAL
+      when Token::COMPARISON, Token::EQUAL, Token::BOOLEAN
         actions << [@g.get(@line_number), t.value]
       else
         panic t
