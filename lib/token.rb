@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Token
-  attr_reader :type, :value, :precedence, :associativity
+  attr_reader :type, :value, :precedence, :associativity, :negative
 
   KEYWORDS = %w[
     END
@@ -76,6 +76,7 @@ class Token
     @precedence = nil
     @associativity = nil
     @type = UNKNOWN
+    @negative = false # For float variables that are unary minus
 
     set_type
 
@@ -83,8 +84,15 @@ class Token
   end
 
   def inspect
-    x = [@type, @value, @precedence, @associativity].compact
-    "<#{x.join(' ')} >"
+    x = [@type, @value]
+
+    if @type == Token::FLOAT_VARIABLE
+      x << 'negated' if @negative
+    else
+      x += [@precedence, @associativity].compact
+    end
+
+    "<#{x.compact.join(' ')} >"
   end
 
   def to_s
@@ -93,6 +101,10 @@ class Token
 
   def reset_value(value)
     @value = value
+  end
+
+  def negated
+    @negative = true
   end
 
   def self.float?(text)

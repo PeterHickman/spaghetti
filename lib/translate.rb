@@ -42,13 +42,13 @@ class Translate
     actions
   end
 
-  def kw_input(args)
+  def kw_input(tokens)
     actions = []
 
-    x = args.shift
+    x = tokens.shift
     if x.type == Token::STRING
       actions << [@g.get(@line_number), 'prints', @ss[x.value]]
-      x = args.shift
+      x = tokens.shift
     end
 
     actions << [@g.get(@line_number), 'inputf', @fv[x.value]]
@@ -56,12 +56,12 @@ class Translate
     actions
   end
 
-  def kw_if(args)
+  def kw_if(tokens)
     c = []
     loop do
-      break if args.first.type == Token::KEYWORD
+      break if tokens.first.type == Token::KEYWORD
 
-      c << args.shift
+      c << tokens.shift
     end
 
     actions = []
@@ -71,6 +71,10 @@ class Translate
         actions << [@g.get(@line_number), 'pushf', @fs[t.value]]
       when Token::FLOAT_VARIABLE
         actions << [@g.get(@line_number), 'pushf', @fv[t.value]]
+        if t.negative
+          actions << [@g.get(@line_number), 'pushf', @fs[-1.0]]
+          actions << [@g.get(@line_number), '*']
+        end
       when Token::COMPARISON, Token::EQUAL
         actions << [@g.get(@line_number), t.value]
       else
@@ -84,21 +88,21 @@ class Translate
 
     actions << [@g.get(@line_number), 'jf', next_label]
 
-    kw = args.shift
-    actions += handle_keyword(kw, args)
+    kw = tokens.shift
+    actions += handle_keyword(kw, tokens)
 
     actions << [next_label, 'nop']
 
     actions
   end
 
-  def kw_goto(args)
-    target_label = @g.label(args.first.value, 1)
+  def kw_goto(tokens)
+    target_label = @g.label(tokens.first.value, 1)
     [[@g.get(@line_number), 'jump', target_label]]
   end
 
-  def kw_gosub(args)
-    target_label = @g.label(args.first.value, 1)
+  def kw_gosub(tokens)
+    target_label = @g.label(tokens.first.value, 1)
     current_label = @g.get(@line_number)
 
     [
@@ -107,21 +111,21 @@ class Translate
     ]
   end
 
-  def kw_return(args)
+  def kw_return(tokens)
     [[@g.get(@line_number), 'popr']]
   end
 
-  def kw_end(_args)
+  def kw_end(_tokens)
     [[@g.get(@line_number), 'exit']]
   end
 
-  def kw_print(args)
+  def kw_print(tokens)
     actions = []
 
-    last_index = args.size - 1
+    last_index = tokens.size - 1
     add_newline = true
 
-    args.each_with_index do |x, i|
+    tokens.each_with_index do |x, i|
       case x.type
       when Token::STRING
         @ss << x.value
@@ -146,28 +150,32 @@ class Translate
     actions
   end
 
-  def kw_rem(_args)
+  def kw_rem(_tokens)
     [[@g.get(@line_number), 'nop']]
   end
 
-  def kw_let(args)
+  def kw_let(tokens)
     actions = []
 
     # The first is a variable (waiting for string variables and arrays)
-    v = args.shift
+    v = tokens.shift
     panic "LET requires a variable as the first argument at #{@line_number}" if v.type != Token::FLOAT_VARIABLE
 
     # The next things should be =
-    e = args.shift
+    e = tokens.shift
     panic "LET requires a = after the variable at #{@line_number}" if e.type != Token::EQUAL
 
     # Here comes the expression
-    Expression.process(args).each do |x|
+    Expression.process(tokens).each do |x|
       case x.type
       when Token::FLOAT
         actions << [@g.get(@line_number), 'pushf', @fs[x.value]]
       when Token::FLOAT_VARIABLE
         actions << [@g.get(@line_number), 'pushf', @fv[x.value]]
+        if x.negative
+          actions << [@g.get(@line_number), 'pushf', @fs[-1.0]]
+          actions << [@g.get(@line_number), '*']
+        end
       when Token::MATH, Token::FUNCTION
         actions << [@g.get(@line_number), x.value]
       else

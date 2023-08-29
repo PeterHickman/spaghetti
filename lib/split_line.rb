@@ -11,7 +11,7 @@ class SplitLine
     x = split_strings(text)
     y = cleanup(x)
     z = label_tokens(y)
-    clean_unary(z)
+    r = clean_unary(z)
   end
 
   def self.split_other(text)
@@ -108,7 +108,11 @@ class SplitLine
         if l.empty?
           list[i + 1].reset_value(list[i + 1].value * -1)
         elsif NOT_UNARY.include?(l[-1].value)
-          list[i + 1].reset_value(list[i + 1].value * -1)
+          if list[i + 1].type == Token::FLOAT_VARIABLE
+            list[i + 1].negated
+          else
+            list[i + 1].reset_value(list[i + 1].value * -1)
+          end
         elsif l[-1].type == Token::KEYWORD
           list[i + 1].reset_value(list[i + 1].value * -1)
         else
